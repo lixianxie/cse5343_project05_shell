@@ -138,13 +138,12 @@ void error(char* cmdLine){
 
 int main(int args, char** argv){
 	printf("Hello:yet unix shell!\n");
-	char cmdLine[100];
-	char command[100];
 	while(true){
 		printf("> ");
+		char cmdLine[100]={0};
+		char command[100]={0};
 		setbuf(stdin,NULL);//clean stdin to avid dead loop
-		//scanf("%[^\n]",cmdLine);
-		gets(cmdLine);
+		scanf("%[^\n]",cmdLine);
 		getCommand(cmdLine,command); //get the 1st part(named command) from cmdLine.
 		if(cmdIsExit(command)){
 			break;
