@@ -30,22 +30,26 @@ bool cmdIsExecutable(char* command){
 		if(access(command,X_OK)!=-1)return 1;//X_OK means execute permission
 	}else return 0;
 }
+//if you don't enter anything at current line or leave this line blank.
+bool cmdIsNull(char* command){
+	return !strcmp(command,"Null");
+}
 
-int countArgs(char* cmdLine){
+int countArgs(char* cmdLine){//count the number of arguments in the command line
 	char temp[100];
-	strcpy(temp,cmdLine);
+	strcpy(temp,cmdLine);//strtok will destroy the origin, so i copy it for temp use.
 	char* delim;
 	int i=0;
 	for(delim=strtok(temp," ");delim!=NULL;delim=strtok(NULL," "))i++;
 	return i;		
 }
 
-void getCommand(char* cmdLine,char* command){
+void getCommand(char* cmdLine,char* command){//get the first string in command line.
 	char temp[100];
 	strcpy(temp,cmdLine);
 	char* delim;
 	if((delim=strtok(temp," "))!=NULL)strcpy(command,delim);
-	else strcpy(command,"\n"); 
+	else strcpy(command,"Null"); //if enter nothing or start typing from next line
 }
 
 void type(char* cmdLine){
@@ -66,8 +70,7 @@ void type(char* cmdLine){
 				while((ch=fgetc(fp))!=EOF)putchar(ch);
 			}
 		fclose(fp);
-		}else printf("Error: %s doesn't exist!\n",firstFileName);
-		
+		}else printf("Error: %s doesn't exist!\n",firstFileName);		
 	}	
 }
 
@@ -96,9 +99,7 @@ void copy(char* cmdLine){
 			fclose(in);
 			fclose(out);
 		}else printf("Error: %s doesn't exist!\n",firstFileName);
-
-	}
-	
+	}	
 }
 
 void delete(char* cmdLine){
@@ -132,7 +133,7 @@ void delete(char* cmdLine){
 }*/// execute part should be wrong right now.
 
 void error(char* cmdLine){
-	printf("Command not found: %s\n",cmdLine);
+	printf("Error: command not found!\n",cmdLine);
 }
 
 int main(int args, char** argv){
@@ -141,7 +142,9 @@ int main(int args, char** argv){
 	char command[100];
 	while(true){
 		printf("> ");
-		scanf("%[^\n]%*c",cmdLine);
+		setbuf(stdin,NULL);//clean stdin to avid dead loop
+		//scanf("%[^\n]",cmdLine);
+		gets(cmdLine);
 		getCommand(cmdLine,command); //get the 1st part(named command) from cmdLine.
 		if(cmdIsExit(command)){
 			break;
@@ -153,7 +156,10 @@ int main(int args, char** argv){
 			delete(cmdLine);
 		}/*else if(cmdIsExecutable(command)){
 			execute(cmdLine);
-		}*/else{
+		}*/
+		else if(cmdIsNull(command)){
+			;//jump to next line and wait user to do something.
+		}else{
 			error(cmdLine);
 		}
 	}
