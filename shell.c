@@ -119,7 +119,7 @@ void delete(char* cmdLine){
 	} 
 }
 
-void execute(char* command){
+/*void execute(char* command){
 	char args[1][1]='\0';
 	int status;
 	int subPid=fork();
@@ -128,9 +128,8 @@ void execute(char* command){
 		exit(status);
 	}else{
 		wait(status);
-	}
-	
-}
+	}	
+}*/// execute part should be wrong right now.
 
 void error(char* cmdLine){
 	printf("Command not found: %s\n",cmdLine);
@@ -152,9 +151,9 @@ int main(int args, char** argv){
 			copy(cmdLine);
 		}else if(cmdIsDelete(command)){
 			delete(cmdLine);
-		}else if(cmdIsExecutable(command)){
+		}/*else if(cmdIsExecutable(command)){
 			execute(cmdLine);
-		}else{
+		}*/else{
 			error(cmdLine);
 		}
 	}
