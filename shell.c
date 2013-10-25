@@ -120,17 +120,19 @@ void delete(char* cmdLine){
 	} 
 }
 
-/*void execute(char* command){
+void execute(char* command){
 	char args[1][1]='\0';
-	int status;
-	int subPid=fork();
-	if(subPid==0){
+	int pid=fork();
+	if(pid==-1){
+		printf("Error: can't execute!");
+		break;
+	}else if(pid==0){
 		execvp(command,args);
-		exit(status);
 	}else{
-		wait(status);
-	}	
-}*/// execute part should be wrong right now.
+		wait(NULL);
+	}
+	printf("\n");	//i am not sure its correctness.
+}
 
 void error(char* cmdLine){
 	printf("Error: command not found!\n",cmdLine);
