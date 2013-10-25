@@ -121,13 +121,13 @@ void delete(char* cmdLine){
 }
 
 void execute(char* command){
-	char args[1][1]='\0';
+	//char args[1][1]='\0';
 	int pid=fork();
 	if(pid==-1){
 		printf("Error: can't execute!");
-		break;
+		exit(0);
 	}else if(pid==0){
-		execvp(command,args);
+		execvp(command,NULL);
 	}else{
 		wait(NULL);
 	}
@@ -155,10 +155,9 @@ int main(int args, char** argv){
 			copy(cmdLine);
 		}else if(cmdIsDelete(command)){
 			delete(cmdLine);
-		}/*else if(cmdIsExecutable(command)){
+		}else if(cmdIsExecutable(command)){
 			execute(cmdLine);
-		}*/
-		else if(cmdIsNull(command)){
+		}else if(cmdIsNull(command)){
 			;//jump to next line and wait user to do something.
 		}else{
 			error(cmdLine);
