@@ -131,7 +131,7 @@ void execute(char* command){
 	}else{
 		wait(NULL);
 	}
-	printf("\n");	//i am not sure its correctness.
+	printf("\n");	//not sure its correctness.
 }
 
 void error(char* cmdLine){
@@ -144,7 +144,7 @@ int main(int args, char** argv){
 		printf("> ");
 		char cmdLine[100]={0};
 		char command[100]={0};
-		setbuf(stdin,NULL);//clean stdin to avid dead loop
+		setbuf(stdin,NULL);//clean stdin to avoid dead loop
 		scanf("%[^\n]",cmdLine);
 		getCommand(cmdLine,command); //get the 1st part(named command) from cmdLine.
 		if(cmdIsExit(command)){
